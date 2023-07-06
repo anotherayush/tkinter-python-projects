@@ -1,0 +1,31 @@
+from tkinter import *
+import lyricsgenius
+api_key="ENTER-YOUR-API-KEY-HERE"
+genius= lyricsgenius.Genius(api_key)
+
+root= Tk()
+root.title("SEEEEEMS!")
+l= Label(root, text="Enter Artist's Name",anchor=CENTER)
+l.grid(row=0,column=0)
+e= Entry(root,border=5)
+e.grid(row=0,column=2,padx=5)
+p= Label(root, text="Enter Artist's Song",anchor=CENTER)
+p.grid(row=1,column=0)
+f= Entry(root,border=5)
+f.grid(row=1,column=2,padx=5)
+def click():
+  top= Toplevel()
+  top.title("Lyrics")
+  sb= Scrollbar(top,orient=VERTICAL)
+  sb.pack(fill=Y,side=RIGHT)
+  k = str(e.get())
+  j = str(f.get())
+  s= genius.search_song(str(j), k)
+  cv= Canvas(top, width=500, height=500,scrollregion=(0,0,2000,2000))
+  cv.create_text(350,800,text=str(s.lyrics), font=('Sans-Serif', 10))
+  cv.pack(fill=BOTH,expand=True)
+  sb.config(command=cv.yview)
+  cv.config(yscrollcommand=sb.set)
+b= Button(root, text='Enter',borderwidth=5,command=click)
+b.grid(row=2,column=1,padx=10,pady=10)
+root.mainloop()
